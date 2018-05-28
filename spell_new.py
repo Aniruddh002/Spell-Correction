@@ -5,12 +5,11 @@ Created on Tue May 22 14:05:25 2018
 """
 import re
 import inflection
-import itertools
+#import itertools
 from collections import Counter
-import nltk
 from nltk.corpus import stopwords
 stoplist=set(stopwords.words('english'))
-import sys
+#import sys
 import pandas as pd
 import operator
 
@@ -25,7 +24,30 @@ dictionary_num={'1':['i','l','j','t','h'],
                 '9':['q','o','c','g'],
                 '0':['o','q','u','v','c','e']
                 }
+'''
+dictionary_num={'1':['i','l','j','t','h','a','b','c','d','e','f','g','k','m','n','o','p',
+                     'q','r','s','u','v','w','x','y','z'],
+                '2':['z','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p',
+                     'q','r','s','t','u','v','w','x','y'],
+                '3':['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q',
+                     'r','s','t','u','v','w','x','y','z'],
+                '4':['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q',
+                     'r','s','t','u','v','w','x','y','z'],
+                '5':['s','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p',
+                     'q','r','t','u','v','w','x','y','z'],
+                '6':['o','c','b','a','d','e','f','g','h','i','j','k','l','m','n','p','q',
+                     'r','s','t','u','v','w','x','y','z'],
+                '7':['i','l','j','t','a','b','c','d','e','f','g','h','k','m','n','o','p',
+                     'q','r','s','u','v','w','x','y','z'],
+                '8':['b','e','a','c','d','f','g','h','i','j','k','l','m','n','o','p','q',
+                     'r','s','t','u','v','w','x','y','z'],
+                '9':['q','o','c','g','a','b','d','e','f','h','i','j','k','l','m','n','p',
+                     'r','s','t','u','v','w','x','y','z'],
+                '0':['o','q','u','v','c','e','a','b','d','f','g','h','i','j','k','l','m',
+                     'n','p','r','s','t','w','x','y','z']
+                }
 
+'''
 def cleaning_data_function(text):
     text=text.lower()
     words = re.split('\t', text)
@@ -37,17 +59,17 @@ def cleaning_data_function(text):
                 temp_string=list(text2)
                 if (temp_string[-1]==','):
                     temp_string.pop()
-                    obtained_text="".join(temp_string)
+                    text2="".join(temp_string)
                 elif (temp_string[0]=='\('):
                     temp_string.pop()
                     temp_string.popleft()
-                    obtained_text="".join(temp_string)
+                    text2="".join(temp_string)
                 elif (temp_string[0]=='\)'):
                     temp_string.pop()
-                    obtained_text="".join(temp_string)
-            msg=[inflection.singularize(text2)]
-            new.append(msg)
-    return new    
+                    text2="".join(temp_string)
+                msg=[inflection.singularize(text2)]
+                new.append(msg)
+    return new  
 
 def cleaning_data_function_new(text):
     text=text.lower()
@@ -155,8 +177,8 @@ df=pd.read_csv(r'C:\Users\nathani_n\Desktop\SpellCorrection\new_csv.csv')
 saved_column = df['Error_By_OCR_Reader']
 new1=[]
 text_new = str(saved_column)
-print(text_new)
 new1= cleaning_data_function_new(text_new)
+print(new1)
 dictionary_correct_names_new= dict(Counter([element for sub in new1 for element in sub]))
 print(dictionary_correct_names_new)
 for k in new1:
