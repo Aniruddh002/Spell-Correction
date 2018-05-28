@@ -155,7 +155,7 @@ def find_correction_function(k,count_new,list_main,obtained_text,obtained_text_c
         print('\n \n')
 
 
-file = open(r'C:\Users\nathani_n\Desktop\SpellCorrection\dict.txt', 'r',encoding="utf-8-sig")
+file = open(r'C:\Users\nathani_n\Desktop\SpellCorrectionOneDigit\dict.txt', 'r',encoding="utf-8-sig")
 ProgRoman = re.compile(u'^M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})$')
 new=[]
 text = file.read().lower()
@@ -171,9 +171,9 @@ print(dictionary_correct_names)
 print('\n \n'+' INCORRECT DATA DICTIONARY' + '\n \n')
 #################################
 
-data_xls = pd.read_excel(r'C:\Users\nathani_n\Desktop\SpellCorrection\corrections.xlsx', 'Sheet1', index_col=None)
-data_xls.to_csv(r'C:\Users\nathani_n\Desktop\SpellCorrection\new_csv.csv', index=False, encoding='utf-8')
-df=pd.read_csv(r'C:\Users\nathani_n\Desktop\SpellCorrection\new_csv.csv')
+data_xls = pd.read_excel(r'C:\Users\nathani_n\Desktop\SpellCorrectionOneDigit\corrections.xlsx', 'Sheet1', index_col=None)
+data_xls.to_csv(r'C:\Users\nathani_n\Desktop\SpellCorrectionOneDigit\new_csv.csv', index=False, encoding='utf-8')
+df=pd.read_csv(r'C:\Users\nathani_n\Desktop\SpellCorrectionOneDigit\new_csv.csv')
 saved_column = df['Error_By_OCR_Reader']
 new1=[]
 text_new = str(saved_column)
@@ -182,7 +182,7 @@ print(new1)
 dictionary_correct_names_new= dict(Counter([element for sub in new1 for element in sub]))
 print(dictionary_correct_names_new)
 for k in new1:
-    count_new=0
+    count_new=0 #Variable for updating in k[count_new]
     for j in k:
         obtained_text=j
         print('\n \n')
@@ -192,6 +192,8 @@ for k in new1:
         check_obtained_text_function(obtained_text)
         print(list_main)
         obtained_text_corrected=0
+        
+        #CORRECTION LOGIC STARTS HERE
         if(obtained_text not in dictionary_correct_names.keys()):
             find_correction_function(k,count_new,list_main,obtained_text,obtained_text_corrected)
         count_new=count_new+1       
@@ -207,6 +209,6 @@ for k in new1:
     
 print(Corrected_Names)
 
-csv_input = pd.read_csv(r'C:\Users\nathani_n\Desktop\SpellCorrection\new_csv.csv')
+csv_input = pd.read_csv(r'C:\Users\nathani_n\Desktop\SpellCorrectionOneDigit\new_csv.csv')
 csv_input['Corrected_Names'] = pd.DataFrame(Corrected_Names)
-csv_input.to_csv(r'C:\Users\nathani_n\Desktop\SpellCorrection\output.csv', index=False)
+csv_input.to_csv(r'C:\Users\nathani_n\Desktop\SpellCorrectionOneDigit\output.csv', index=False)
