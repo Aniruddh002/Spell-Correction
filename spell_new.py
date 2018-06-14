@@ -59,14 +59,14 @@ def cleaning_data_function(text):
                 temp_string=list(text2)
                 if (temp_string[-1]==','):
                     temp_string.pop()
-                    text2="".join(temp_string)
+                    obtained_text="".join(temp_string)
                 elif (temp_string[0]=='\('):
                     temp_string.pop()
                     temp_string.popleft()
-                    text2="".join(temp_string)
+                    obtained_text="".join(temp_string)
                 elif (temp_string[0]=='\)'):
                     temp_string.pop()
-                    text2="".join(temp_string)
+                    obtained_text="".join(temp_string)
                 msg=[inflection.singularize(text2)]
                 new.append(msg)
     return new  
