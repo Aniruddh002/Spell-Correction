@@ -72,7 +72,7 @@ def cleaning_data_function(text):
                 '''
                 msg=[inflection.singularize(text2)]
                 new.append(msg)
-    return new  
+    return new 
 
 def cleaning_data_function_new(text):
     text=text.lower()
@@ -108,8 +108,8 @@ def check_obtained_text_function(obtained_text):
                     list_main.append(i)
                 count=count+1
                 
-        elif(times==0):
-            print("NOTE: Input should have atleast one or two digit error")
+        else:
+            print("NOTE: Input should have atleast one or maximum two DIGIT error")
             #sys.exit(0)
             list_main.append(0)
             list_main.append(0)
@@ -120,7 +120,7 @@ def check_obtained_text_function(obtained_text):
     return list_main 
 
 
-def find_correction_function(k,count_new,list_main,obtained_text,obtained_text_corrected):
+def find_correction_function(k,count_new,list_main,obtained_text):
     index=list_main[1]
     num=list_main[2]
     list_get=dictionary_num.get(num)
@@ -171,7 +171,7 @@ def find_correction_function(k,count_new,list_main,obtained_text,obtained_text_c
         print("NOTE: Corrected word not be available in the dictionary")
         print('\n \n')
 
-def find_correction_function_new(k,count_new,list_main,obtained_text,obtained_text_corrected):
+def find_correction_function_new(k,count_new,list_main,obtained_text):
     index1=list_main[1]
     index2=list_main[3]
     num1=list_main[2]
@@ -254,37 +254,37 @@ print(dictionary_correct_names)
 print('\n \n'+' INCORRECT DATA DICTIONARY' + '\n \n')
 #################################
 
-data_xls = pd.read_excel(r'C:\Users\nathani_n\Desktop\SpellCorrectionTwoDigit\corrections_two_digit_error.xlsx', 'Sheet1', index_col=None)
+data_xls = pd.read_excel(r'C:\Users\nathani_n\Desktop\SpellCorrectionTwoDigit\corrections_one_plus_two_digit_error.xlsx', 'Sheet1', index_col=None)
 data_xls.to_csv(r'C:\Users\nathani_n\Desktop\SpellCorrectionTwoDigit\new_csv_one_plus_two_digit_error.csv', index=False, encoding='utf-8')
 df=pd.read_csv(r'C:\Users\nathani_n\Desktop\SpellCorrectionTwoDigit\new_csv_one_plus_two_digit_error.csv')
 saved_column = df['Error_By_OCR_Reader']
 new1=[]
 text_new = str(saved_column)
+print(text_new)
+
 new1= cleaning_data_function_new(text_new)
 print(new1)
 dictionary_correct_names_new= dict(Counter([element for sub in new1 for element in sub]))
 print(dictionary_correct_names_new)
 for k in new1:
     count_new=0 #Variable for updating in k[count_new]
-    for j in k:
-        obtained_text=j
+    for obtained_text in k: 
         print('\n \n')
         print(obtained_text)
         obtained_text=obtained_text.lower()
         list_main=[obtained_text]
         check_obtained_text_function(obtained_text)
         print(list_main)
-        obtained_text_corrected=0
         
         if(len(list_main)==3):
         #CORRECTION LOGIC STARTS HERE
             if(obtained_text not in dictionary_correct_names.keys()):
-                    find_correction_function(k,count_new,list_main,obtained_text,obtained_text_corrected)
+                    find_correction_function(k,count_new,list_main,obtained_text)
             count_new=count_new+1
 
         if(len(list_main)==5):
             if(obtained_text not in dictionary_correct_names.keys()):
-                    find_correction_function_new(k,count_new,list_main,obtained_text,obtained_text_corrected)
+                    find_correction_function_new(k,count_new,list_main,obtained_text)
             count_new=count_new+1           
         
     print('\n \n'+'NEW COMPANY NAME CHEKING')
@@ -296,7 +296,6 @@ Corrected_Names=[]
 for k in new1:
     k=" ".join(k)
     Corrected_Names.append(k)
-    
 print(Corrected_Names)
 
 csv_input = pd.read_csv(r'C:\Users\nathani_n\Desktop\SpellCorrectionTwoDigit\new_csv_one_plus_two_digit_error.csv')
